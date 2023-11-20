@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>The OpenSceneGraph website is being replaced</h1>
+   
+    <p>
+        You attempted to access <a id="original" href=""></a>. This link is no longer part of the new OpenSceneGraph website.
+    </p>
+    <p>
+        You can reach the new OpenSceneGraph website at <a id="new" href="https://anyoldname3.github.io/osg-website-placeholder/">https://anyoldname3.github.io/osg-website-placeholder/</a>.
+    </p>
+    <p>
+        Alternatively, an archive of the URL you attempted to access is available at <a id="archive" href=""></a>, if it was valid when the archive was created.
+    </p>
+
+    <script>
+        var originalUrl = window.location.href;
+
+        var originalLinkElement = document.getElementById("original");
+        originalLinkElement.href = originalUrl;
+        originalLinkElement.text = originalUrl;
+
+        var archiveUrl = `https://anyoldname3.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/${window.location.host}${window.location.pathname}${window.location.search}${window.location.hash}`;
+        var archiveLinkElement = document.getElementById("archive");
+        archiveLinkElement.href = archiveUrl;
+        archiveLinkElement.text = archiveUrl;
+    </script>
+
+</body>
+</html>
