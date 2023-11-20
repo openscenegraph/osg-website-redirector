@@ -26,7 +26,7 @@
 
         var archivePath = `${window.location.host}${window.location.pathname}`;
         if (archivePath.startsWith("anyoldname3.github.io/osg-website-redirector"))
-            archivePath.replace("anyoldname3.github.io/osg-website-redirector", "www.openscenegraph.com");
+            archivePath = archivePath.replace("anyoldname3.github.io/osg-website-redirector", "www.openscenegraph.com");
         var archiveUrl = `https://anyoldname3.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/${archivePath}${window.location.search}${window.location.hash}`;
         var archiveLinkElement = document.getElementById("archive");
         archiveLinkElement.href = archiveUrl;
