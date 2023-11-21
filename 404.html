@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/js-md5@0.8.3"></script>
 </head>
 <body>
     <h1>The OpenSceneGraph website is being replaced</h1>
@@ -27,6 +28,12 @@
         var archivePath = `${window.location.host}${window.location.pathname}`;
         if (archivePath.startsWith("anyoldname3.github.io/osg-website-redirector"))
             archivePath = archivePath.replace("anyoldname3.github.io/osg-website-redirector", "www.openscenegraph.com");
+        if (window.location.search.startsWith("?"))
+        {
+            var params = window.location.search.substring(1);
+            params = md5(params).substring(0, 4);
+            archivePath += params;
+        }
         var archiveUrl = `https://anyoldname3.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/${archivePath}${window.location.search}${window.location.hash}`;
         var archiveLinkElement = document.getElementById("archive");
         archiveLinkElement.href = archiveUrl;
