@@ -7,16 +7,34 @@
 </head>
 <body>
     <h1>The OpenSceneGraph website is being replaced</h1>
-   
-    <p>
-        You attempted to access <a id="original" href=""></a>. This link is no longer part of the new OpenSceneGraph website.
-    </p>
-    <p>
-        You can reach the new OpenSceneGraph website at <a id="new" href="https://anyoldname3.github.io/osg-website-placeholder/">https://anyoldname3.github.io/osg-website-placeholder/</a>.
-    </p>
-    <p>
-        Alternatively, an archive of the URL you attempted to access is available at <a id="archive" href=""></a>, if it was valid when the archive was created.
-    </p>
+    
+    <div id="regular-page">
+        <p>
+            You attempted to access <a id="original" href=""></a>. This link is no longer part of the new OpenSceneGraph website.
+        </p>
+        <p>
+            You can reach the new OpenSceneGraph website at <a href="https://anyoldname3.github.io/osg-website-placeholder/">https://anyoldname3.github.io/osg-website-placeholder/</a>.
+        </p>
+        <p>
+            Alternatively, an archive of the URL you attempted to access is available at <a id="archive" href=""></a>, if it was valid when the archive was created.
+        </p>
+    </div>
+
+    <div id="forum-page" style="display: none;">
+        <p>
+            You attempted to access <a id="original-forum" href=""></a>. Discussion for OpenSceneGraph has moved to <a href="https://github.com/openscenegraph/OpenSceneGraph/discussions">GitHub Discussions</a>.
+        </p>
+        <p>
+            You can reach the new OpenSceneGraph website at <a href="https://anyoldname3.github.io/osg-website-placeholder/">https://anyoldname3.github.io/osg-website-placeholder/</a>.
+        </p>
+        <p>
+            The OpenSceneGraph forum, mailing list and Google Group should all have contained the same content.
+            The Google group is still available as an archive at <a href="https://groups.google.com/g/osg-users">https://groups.google.com/g/osg-users</a> and a read-only archive of the mailing list is available at <a href="https://anyoldname3.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/lists.openscenegraph.org/pipermail/osg-users-openscenegraph.org/index.html">https://anyoldname3.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/lists.openscenegraph.org/pipermail/osg-users-openscenegraph.org/index.html</a>.
+        </p>
+        <p>
+            An archive of the specific URL you attempted to access is available at <a id="archive-forum" href=""></a>, if it was valid when the archive was created.
+        </p>
+    </div>
 
     <script>
         var originalUrl = window.location.href;
@@ -24,8 +42,24 @@
         var originalLinkElement = document.getElementById("original");
         originalLinkElement.href = originalUrl;
         originalLinkElement.text = originalUrl;
+        originalLinkElement = document.getElementById("original-forum");
+        originalLinkElement.href = originalUrl;
+        originalLinkElement.text = originalUrl;
+
+        if (window.location.host === "lists.openscenegraph.org" || window.location.host === "forum.openscenegraph.org")
+        {
+            document.getElementById("regular-page").style.display = "none";
+            document.getElementById("forum-page").style.display = "";
+        }
+
+        // TODO: forum links are all dead, but many could be brought back to life by going to the equivalent pipermail post thanks to the
+        // Read this topic online here:
+        // http://forum.openscenegraph.org/viewtopic.php?p=70515#70515
+        // footer the forum generated when converting to email.
+        // We'd just need to grep for that and dump the results to a file this script could scan.
 
         var archivePath = `${window.location.host}${window.location.pathname}`;
+        
         if (archivePath.startsWith("anyoldname3.github.io/osg-website-redirector"))
             archivePath = archivePath.replace("anyoldname3.github.io/osg-website-redirector", "www.openscenegraph.com");
         if (window.location.search.startsWith("?"))
@@ -36,6 +70,9 @@
         }
         var archiveUrl = `https://anyoldname3.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/${archivePath}${window.location.search}${window.location.hash}`;
         var archiveLinkElement = document.getElementById("archive");
+        archiveLinkElement.href = archiveUrl;
+        archiveLinkElement.text = archiveUrl;
+        archiveLinkElement = document.getElementById("archive-forum");
         archiveLinkElement.href = archiveUrl;
         archiveLinkElement.text = archiveUrl;
     </script>
