@@ -5,8 +5,8 @@ const urlMap = require('../url-map.json');
 const linkFound = fs.readFileSync('./link_found.html').toString();
 const notFound = fs.readFileSync('./not_found.html').toString();
 
-const hostname = '127.0.0.1';
-const port = 8000;
+const hostname = '0.0.0.0';
+const port = process.env.PORT || 8000;
 
 const htmlEscape = (str) => {
     const lut = {
