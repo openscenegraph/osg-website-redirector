@@ -52,7 +52,8 @@ for url in urlMap:
             print(f"archive.org used cache for {url} at {newUrl}")
 
     except Exception as e:
-        resultMap[url]['exception'] = e
+        resultMap[url]['exception_str'] = str(e)
+        resultMap[url]['exception_repr'] = repr(e)
         print(e)
 
 with open("upload-results.json", 'w', encoding='UTF-8') as f:
