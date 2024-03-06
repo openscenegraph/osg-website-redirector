@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('node:http');
 const urlMap = require('../url-map.json');
+const newSiteUrls = new Set(require('../new-site-urls.json'));
 
 const linkFound = fs.readFileSync('./link_found.html').toString();
 const notFound = fs.readFileSync('./not_found.html').toString();
@@ -23,6 +24,15 @@ const server = http.createServer((req, res) => {
     let originalUrl = "https://www.openscenegraph.com";
     if (req.headers.host && req.headers.host == "lists.openscenegraph.org") {
         originalUrl = "http://lists.openscenegraph.org";
+    } else {
+        let url = new URL(req.url, `https://${req.headers.host}`);
+        let path = url.pathname.slice(1);
+        if (path === "" || newSiteUrls.has(path)) {
+            res.setHeader('Location', `https://openscenegraph.github.io/openscenegraph.io/${path}`);
+            res.statusCode = 301;
+            res.end();
+            return;
+        }
     }
     originalUrl += req.url;
     res.setHeader('Content-Type', 'text/html');
