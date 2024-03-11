@@ -21,29 +21,36 @@ const htmlEscape = (str) => {
 }
 
 const server = http.createServer((req, res) => {
-    let originalUrl = "https://www.openscenegraph.com";
-    if (req.headers.host && req.headers.host == "lists.openscenegraph.org") {
-        originalUrl = "http://lists.openscenegraph.org";
-    } else {
-        let url = new URL(req.url, `https://${req.headers.host}`);
-        let path = url.pathname.slice(1);
-        if (path === "" || newSiteUrls.has(path)) {
-            res.setHeader('Location', `https://openscenegraph.github.io/openscenegraph.io/${path}`);
-            res.statusCode = 301;
-            res.end();
-            return;
+    try {
+        let originalUrl = "https://www.openscenegraph.com";
+        if (req.headers.host && req.headers.host == "lists.openscenegraph.org") {
+            originalUrl = "http://lists.openscenegraph.org";
+        } else {
+            let url = new URL(req.url, `https://${req.headers.host}`);
+            let path = url.pathname.slice(1);
+            if (path === "" || newSiteUrls.has(path)) {
+                res.setHeader('Location', `https://openscenegraph.github.io/openscenegraph.io/${path}`);
+                res.statusCode = 301;
+                res.end();
+                return;
+            }
         }
-    }
-    originalUrl += req.url;
-    res.setHeader('Content-Type', 'text/html');
-    if (urlMap[originalUrl]) {
-        res.setHeader('Link', `<https://openscenegraph.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/${urlMap[originalUrl]}>; rel=alternate, <https://openscenegraph.github.io/openscenegraph.io/>; rel=alternate`);
-        res.statusCode = 300;
-        let fullUrlEscaped = `https://openscenegraph.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/${htmlEscape(urlMap[originalUrl])}`;
-        res.end(linkFound.replaceAll("URL_REPLACEMENT_TOKEN", fullUrlEscaped));
-    } else {
-        res.statusCode = 404;
-        res.end(notFound);
+        originalUrl += req.url;
+        res.setHeader('Content-Type', 'text/html');
+        if (urlMap[originalUrl]) {
+            res.setHeader('Link', `<https://openscenegraph.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/${urlMap[originalUrl]}>; rel=alternate, <https://openscenegraph.github.io/openscenegraph.io/>; rel=alternate`);
+            res.statusCode = 300;
+            let fullUrlEscaped = `https://openscenegraph.github.io/OpenSceneGraphDotComBackup/OpenSceneGraph/${htmlEscape(urlMap[originalUrl])}`;
+            res.end(linkFound.replaceAll("URL_REPLACEMENT_TOKEN", fullUrlEscaped));
+        } else {
+            res.statusCode = 404;
+            res.end(notFound);
+        }
+    } catch (error) {
+        console.error(error, req);
+        res.statusCode = 500;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end(error.message);
     }
 });
 
