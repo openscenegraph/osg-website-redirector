@@ -23,7 +23,13 @@ const htmlEscape = (str) => {
 const server = http.createServer((req, res) => {
     try {
         let originalUrl = "https://www.openscenegraph.com";
-        if (req.headers.host && req.headers.host == "lists.openscenegraph.org") {
+        if (req.headers.host && req.headers.host == "vulkanscenegraph.org") {
+            let path = req.url.slice(1);
+            res.setHeader('Location', `https://vsg-dev.github.io/vsg-dev.io/${path}`);
+            res.statusCode = 301;
+            res.end();
+            return;
+        } else if (req.headers.host && req.headers.host == "lists.openscenegraph.org") {
             originalUrl = "http://lists.openscenegraph.org";
         } else {
             let url = new URL(req.url, `https://${req.headers.host}`);
